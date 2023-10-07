@@ -3,10 +3,13 @@ require("@nomicfoundation/hardhat-verify")
 // require("@nomiclabs/hardhat-ethers");
 require("@nomicfoundation/hardhat-toolbox")
 require("./tasks/block-number")
+require("hardhat-gas-reporter")
+require("solidity-coverage")
 
-const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL
-const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY
-const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY
+const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL || "https://eth-sepolia"
+const SEPOLIA_PRIVATE_KEY = process.env.SEPOLIA_PRIVATE_KEY || "0xkey"
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "key"
+const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || "key"
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -20,14 +23,20 @@ module.exports = {
         localhost: {
             url: "http://127.0.0.1:8545/",
             // accounts: hardhat already placing them. Thanks hardo ;)
-            chainId: 31337
-        }
+            chainId: 31337,
+        },
     },
     etherscan: {
         // Your API key for Etherscan
         // Obtain one at https://etherscan.io/
         apiKey: ETHERSCAN_API_KEY,
     },
+    gasReporter: {
+        enabled: true,
+        currency: "USD",
+        outputFile: "gas-report.txt",
+        noColors: true,
+        coinmarketcap: COINMARKETCAP_API_KEY,
+    },
     solidity: "0.8.19",
 }
-// 0x0836221Ab77392f1ba3Ce2F2712Ecdd69cb97F75
